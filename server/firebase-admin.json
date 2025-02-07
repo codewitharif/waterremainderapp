@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "water-reminder-app-b47b5",
+  "private_key_id": "f57b63be0c205f7ec42448b21f992fb70091698e",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEuwIBADANBgkqhkiG9w0BAQEFAASCBKUwggShAgEAAoIBAQCPw9o3cbgLnZm9\n5Cm86LK2i2HN2gnmraqpcj46wFzwbhUjF/kpP3OADGBgoRInJZnx0qVX6WrR9jVF\njpoYUbDtweoGqMGLMW3ynqz5P/0EqGFRUuSSDqvBxzY473S1hb/prLzjnUx22D+g\nwiJ7ARL7G5MWTDco8QmgFld2QVx4oOF44GFoqwGoo5e0lgshVXIDi0ZSGqSIozC8\nOt4wMVrVPSUZ6v1VXHTomPknI3yt2IAu6w7gl25zuOekIJ990ELEmCMhLFa+mEVg\nl0zFQguhxSFHUGQa30IY2Q2kwJIOkYsWzZmb7wzsm8ORxkYbGrETsvawialxVufA\nu5Di72BJAgMBAAECgf88Wbb9BuIZuezyUpFVAFpJnH2UUwSh0Zrj7VWpuo5aX9vV\nAbLKBGFm+SBrK7sdxO9jg3BL3bC1pmE/FhVVucIlyJbbzmI96j3XEyur3MpaO0P0\neT4lIzayqoeQCcJJ6Mqnb7n9sNd5lOeHYW8YEZ+h7DWwngm9A/sGbDhtJ8/L5C1r\nQ6/W+BK4gLQO9xYl5Hu4z8KfbmABo4lAIjeNLi6AsnAx0qSM1/ruohj57VJOBoIA\nedqXpJUwui2fQSy31gl766JNGBykbQJcgJ3qtP0QN2bt1mByRYBuWwA3W4FTq4v3\nCbbdJJxp0T3mXFNDMXwsM8n1RHFUjzTTep0X2kECgYEAwX6S7ySbLQ07kwDM5uK4\n9dQ4rrCq7b5uA4tuyu2DOe/4uleVlwhUEhu5QAKjFRCG3SXuMh6aIGEpj6LwmQs4\nzjCBQDfJ5T3ntJ+qeUkH/bGpBGBe7sv0o7KydaKOPCewJUIXKbnFH1NUSMn2JZEZ\nbhIytkflceBlbpe8myPraQUCgYEAvjTNq6pcRDHbGPajyzNiw0v/+YiuxDL9GFUo\nLrC9sTa1JzSwd4RASzIA1+3QDX56QwytzTDEMWhfTLDpND/n62Yi1VyIhsaOI9de\nbSqfH6Lque9swnLZ6KLWowil+hGACAzPBbcmGOYTQkhxQibI2cvu38nbexDHii/w\naebgrXUCgYBgqP13776BNAIVvqmdkZc6Xwjt452P5LiKlsYDI8GRWNrVI9m7uFJf\nNXBGlMqpRDdLFJ64dOcj08XyVkCBA8Ud48c9sGDwXwt4BOchbaVLS8wWPppOCp8s\ng6F4+Hq7fEwXYLu3gXEC5BrPvexz+ddNUFP7EVGCoMmrBKwYiEoajQKBgEI05xJF\n7m/eWsFJuKHWdR49qhAVv5+Tj/2URrRZ2O2CeXP4JySy6B5EfX6rzKulxrDoDOdL\nfj8kcWekfMgvJm8N0joqR2uCWZ+oK7ocB99fOg0Whej5SVhstgFx1TRCOyqSKs12\nftBT5YhA5wt7rJYDIlbLUJZ5tLspDKoQL0yxAoGBAL66ADPZ32cJ2wJUWXRhpP1D\nLtQDUnX3P+HINpEl/w7ibBk4p/IWyeBmwuib5mqfAan3Xye2O1VXmHm5+EZTqqf6\nZveJac6AJMHylJOvje9rzuAXr7ANmy3gDf+IuCYwP4fKIK6SVoz+2EDtZznmCcHS\nPzA2cx8MEEKw3sAoBTk8\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-fbsvc@water-reminder-app-b47b5.iam.gserviceaccount.com",
+  "client_id": "103291364525672405838",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-fbsvc%40water-reminder-app-b47b5.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
