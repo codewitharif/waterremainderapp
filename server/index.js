@@ -5,7 +5,8 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const admin = require("firebase-admin");
 
-const serviceAccount = require("./firebase-admin.json");
+// const serviceAccount = require("./firebase-admin.json");
+const serviceAccount = JSON.parse(process.env.FIREBASE_CREDENTIALS);
 
 const cron = require("node-cron");
 
@@ -26,8 +27,11 @@ mongoose
 const reminderRoutes = require("./routes/reminderRoutes");
 app.use("/api/reminders", reminderRoutes);
 
+// admin.initializeApp({
+//   credential: admin.credential.cert(require("./firebase-admin.json")),
+// });
 admin.initializeApp({
-  credential: admin.credential.cert(require("./firebase-admin.json")),
+  credential: admin.credential.cert(serviceAccount),
 });
 
 //to send notifications manually
