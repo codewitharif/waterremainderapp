@@ -14,7 +14,14 @@ const Reminder = require("./models/Reminder");
 
 // Initialize Express App
 const app = express();
-app.use(cors());
+// app.use(cors());
+app.use(
+  cors({
+    origin: ["https://waterremainderappclient.vercel.app", "*"],
+    methods: ["GET", "POST"],
+    credentials: true,
+  })
+);
 app.use(bodyParser.json());
 
 // MongoDB Connection
