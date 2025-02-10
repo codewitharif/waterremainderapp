@@ -12,7 +12,9 @@ function App() {
   // Fetch all reminders from the backend
   const fetchReminders = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/reminders");
+      const response = await axios.get(
+        "https://waterremainderappserver.vercel.app/api/reminders"
+      );
       setReminders(response.data); // Store reminders in state
     } catch (error) {
       console.error("Error fetching reminders:", error);
@@ -153,11 +155,14 @@ function App() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios.post("http://localhost:5000/api/reminders", {
-      title,
-      time,
-      fcmToken: token,
-    });
+    await axios.post(
+      "https://waterremainderappserver.vercel.app/api/reminders",
+      {
+        title,
+        time,
+        fcmToken: token,
+      }
+    );
     alert("Reminder Set!");
     fetchReminders();
   };
