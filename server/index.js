@@ -95,17 +95,39 @@ const sendNotification = async (reminder) => {
 };
 
 // Run every minute to check for reminders
+// cron.schedule("* * * * *", async () => {
+//   const now = new Date();
+//   const currentTime = now.toTimeString().slice(0, 5); // Extracts HH:MM format
+
+//   console.log(`Checking reminders for time: ${currentTime}`); // Debugging log
+
+//   const reminders = await Reminder.find({ time: currentTime });
+
+//   reminders.forEach((reminder) => {
+//     sendNotification(reminder);
+//   });
+// });
+
 cron.schedule("* * * * *", async () => {
   const now = new Date();
-  const currentTime = now.toTimeString().slice(0, 5); // Extracts HH:MM format
+  const currentTime = now.toTimeString().slice(0, 5);
 
-  console.log(`Checking reminders for time: ${currentTime}`); // Debugging log
+  console.log(`⏳ Checking reminders for time: ${currentTime}`);
 
-  const reminders = await Reminder.find({ time: currentTime });
+  try {
+    const reminders = await Reminder.find({ time: currentTime });
 
-  reminders.forEach((reminder) => {
-    sendNotification(reminder);
-  });
+    if (reminders.length === 0) {
+      console.log(" No reminders found for this time.");
+    } else {
+      reminders.forEach((reminder) => {
+        console.log(" Sending notification to:", reminder.fcmToken);
+        sendNotification(reminder);
+      });
+    }
+  } catch (error) {
+    console.error("Error in cron job:", error);
+  }
 });
 
 app.get("/", async (req, res) => {
