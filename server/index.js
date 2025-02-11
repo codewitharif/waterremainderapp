@@ -162,6 +162,7 @@ cron.schedule("* * * * *", async () => {
 app.get("/", async (req, res) => {
   const now = new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" });
   const currentTime = now.split(", ")[1].slice(0, 5); // Extracts HH:MM format in IST
+  console.log("my current time  is ", currentTime);
 
   res.json({ message: "server running successfully", time: currentTime });
 });
