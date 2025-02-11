@@ -54,6 +54,7 @@ admin.initializeApp({
 });
 
 //to send notifications manually
+// To send notifications manually
 app.post("/send-notification", async (req, res) => {
   const { fcmToken, title, body } = req.body;
 
@@ -66,6 +67,30 @@ app.post("/send-notification", async (req, res) => {
     notification: {
       title,
       body,
+    },
+    android: {
+      notification: {
+        sound: "default", // Ensure sound works on Android
+        click_action: "https://waterremainderappclient.vercel.app", // Required for Android foreground notifications
+      },
+    },
+    apns: {
+      payload: {
+        aps: {
+          sound: "default", // Ensure sound on iOS (if used in the future)
+        },
+      },
+    },
+    webpush: {
+      notification: {
+        title,
+        body,
+        icon: "https://your-domain.com/icon.png", // Replace with a real URL
+        click_action: "https://waterremainderappclient.vercel.app", // Required for mobile browsers
+      },
+      fcmOptions: {
+        link: "https://waterremainderappclient.vercel.app", // Ensures notification opens your site
+      },
     },
   };
 
