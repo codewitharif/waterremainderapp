@@ -138,8 +138,8 @@ app.get("/run-cron", async (req, res) => {
 });
 
 cron.schedule("* * * * *", async () => {
-  const now = new Date();
-  const currentTime = now.toTimeString().slice(0, 5);
+  const now = new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" });
+  const currentTime = now.split(", ")[1].slice(0, 5); // Extracts HH:MM format in IST
 
   console.log(`⏳ Checking reminders for time: ${currentTime}`);
 
@@ -160,7 +160,8 @@ cron.schedule("* * * * *", async () => {
 });
 
 app.get("/", async (req, res) => {
-  res.json({ message: "server running successfully" });
+  const now = new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" });
+  res.json({ message: "server running successfully", time: now });
 });
 
 // Start Server
