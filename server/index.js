@@ -17,7 +17,11 @@ const app = express();
 // app.use(cors());
 app.use(
   cors({
-    origin: ["https://waterremainderappclient.vercel.app", "*"],
+    origin: [
+      "https://waterremainderappclient.vercel.app",
+      "http://localhost:5173/",
+      "*",
+    ],
     methods: ["GET", "POST"],
     credentials: true,
   })
