@@ -53,56 +53,6 @@ admin.initializeApp({
   }),
 });
 
-//to send notifications manually
-// To send notifications manually
-app.post("/send-notification", async (req, res) => {
-  const { fcmToken, title, body } = req.body;
-
-  if (!fcmToken) {
-    return res.status(400).json({ error: "FCM token is required" });
-  }
-
-  const message = {
-    token: fcmToken,
-    notification: {
-      title,
-      body,
-    },
-    android: {
-      notification: {
-        sound: "default", // Ensure sound works on Android
-        click_action: "https://waterremainderappclient.vercel.app", // Required for Android foreground notifications
-      },
-    },
-    apns: {
-      payload: {
-        aps: {
-          sound: "default", // Ensure sound on iOS (if used in the future)
-        },
-      },
-    },
-    webpush: {
-      notification: {
-        title,
-        body,
-        icon: "https://your-domain.com/icon.png", // Replace with a real URL
-        click_action: "https://waterremainderappclient.vercel.app", // Required for mobile browsers
-      },
-      fcmOptions: {
-        link: "https://waterremainderappclient.vercel.app", // Ensures notification opens your site
-      },
-    },
-  };
-
-  try {
-    await admin.messaging().send(message);
-    res.json({ success: true, message: "Notification sent!" });
-  } catch (error) {
-    console.error("Error sending FCM notification:", error);
-    res.status(500).json({ error: "Failed to send notification" });
-  }
-});
-
 // Function to send FCM notification
 const sendNotification = async (reminder) => {
   const message = {
@@ -111,13 +61,37 @@ const sendNotification = async (reminder) => {
       body: reminder.title,
     },
     token: reminder.fcmToken,
+    android: {
+      priority: "high",
+      notification: {
+        sound: "default",
+        click_action: "https://waterremainderappclient.vercel.app", // Ensure it opens on Android
+      },
+    },
+    webpush: {
+      notification: {
+        icon: "https://your-domain.com/icon.png",
+        click_action: "https://waterremainderappclient.vercel.app",
+      },
+      fcmOptions: {
+        link: "https://waterremainderappclient.vercel.app",
+      },
+    },
+    apns: {
+      payload: {
+        aps: {
+          sound: "default",
+        },
+      },
+    },
   };
 
-  admin
-    .messaging()
-    .send(message)
-    .then(() => console.log("Notification sent to", reminder.fcmToken))
-    .catch((err) => console.error("FCM Error:", err));
+  try {
+    await admin.messaging().send(message);
+    console.log("✅ Notification sent to", reminder.fcmToken);
+  } catch (err) {
+    console.error("❌ FCM Error:", err);
+  }
 };
 
 // Run every minute to check for reminders
