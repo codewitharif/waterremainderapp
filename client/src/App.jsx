@@ -7,7 +7,7 @@ function App() {
   const [title, setTitle] = useState("");
   const [time, setTime] = useState("");
   const [token, setToken] = useState("");
-  const [reminders, setReminders] = useState([]);
+  const [reminders, setReminders] = useState([]); // Store all reminders
 
   // Fetch all reminders from the backend
   const fetchReminders = async () => {
@@ -15,7 +15,7 @@ function App() {
       const response = await axios.get(
         "https://waterremainderappserver.vercel.app/api/reminders"
       );
-      setReminders(response.data);
+      setReminders(response.data); // Store reminders in state
     } catch (error) {
       console.error("Error fetching reminders:", error);
     }
@@ -25,80 +25,173 @@ function App() {
     fetchReminders();
   }, []);
 
-  // Register Service Worker
-  useEffect(() => {
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker
-        .register("/firebase-messaging-sw.js")
-        .then((registration) => {
-          console.log("Service Worker registered successfully:", registration);
-        })
-        .catch((err) => {
-          console.log("Service Worker registration failed:", err);
-        });
-    }
-  }, []);
+  // useEffect(() => {
+  //   // Request notification permission
+  //   const requestPermission = async () => {
+  //     try {
+  //       const permission = await Notification.requestPermission();
+  //       if (permission === "granted") {
+  //         // Get FCM token
+  //         const fcmToken = await getToken(messaging, {
+  //           vapidKey:
+  //             "BM8dLhIC7x0gX2Kfc2-u7WOYDGNjA9MfZOs1RcO6WrCRfok1h4U8I0F6ruGPAkEWunAz8sNN4574jn9ZuD_O2A0",
+  //         });
 
-  // Request Notification Permission and Get FCM Token
+  //         console.log("our fcm token is ", fcmToken);
+  //         if (fcmToken) {
+  //           console.log("FCM Token:", fcmToken);
+  //           setToken(fcmToken);
+  //         } else {
+  //           console.log("No FCM token received.");
+  //         }
+  //       } else {
+  //         console.log("Notification permission denied.");
+  //       }
+  //     } catch (error) {
+  //       console.error("Error getting FCM token:", error);
+  //     }
+  //   };
+
+  //   requestPermission();
+
+  //   // Listen for incoming messages
+  //   onMessage(messaging, (payload) => {
+  //     console.log("Message received: ", payload);
+  //   });
+  // }, []);
+  // useEffect(() => {
+  //   let isMounted = true; // Flag to prevent setting state after unmount
+
+  //   // Request notification permission and get the token
+  //   const requestPermission = async () => {
+  //     try {
+  //       const permission = await Notification.requestPermission();
+  //       if (permission === "granted") {
+  //         const fcmToken = await getToken(messaging, {
+  //           vapidKey:
+  //             "BM8dLhIC7x0gX2Kfc2-u7WOYDGNjA9MfZOs1RcO6WrCRfok1h4U8I0F6ruGPAkEWunAz8sNN4574jn9ZuD_O2A0",
+  //         });
+
+  //         if (isMounted) {
+  //           console.log("FCM Token:", fcmToken);
+  //           if (fcmToken) {
+  //             setToken(fcmToken); // Set token in state
+  //           } else {
+  //             console.log("No FCM token received.");
+  //           }
+  //         }
+  //       } else {
+  //         console.log("Notification permission denied.");
+  //       }
+  //     } catch (error) {
+  //       console.error("Error getting FCM token:", error);
+  //     }
+  //   };
+
+  //   requestPermission();
+
+  //   // Listen for incoming messages (foreground notifications)
+  //   onMessage(messaging, (payload) => {
+  //     console.log("Message received: ", payload);
+  //   });
+
+  //   // Cleanup function to prevent setting state after unmount
+  //   return () => {
+  //     isMounted = false;
+  //   };
+  // }, []);
+
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker
+      .register("/firebase-messaging-sw.js")
+      .then((registration) => {
+        console.log("Service Worker registered successfully:", registration);
+      })
+      .catch((err) => {
+        console.log("Service Worker registration failed:", err);
+      });
+  }
+
+  // Request permission & get FCM token
   const requestPermission = async () => {
     try {
       const permission = await Notification.requestPermission();
       if (permission === "granted") {
-        const fcmToken = await getToken(messaging, {
+        const token = await getToken(messaging, {
           vapidKey:
             "BM8dLhIC7x0gX2Kfc2-u7WOYDGNjA9MfZOs1RcO6WrCRfok1h4U8I0F6ruGPAkEWunAz8sNN4574jn9ZuD_O2A0",
         });
-        if (fcmToken) {
-          console.log("✅ FCM Token:", fcmToken);
-          setToken(fcmToken);
-          // Send the token to the backend
-        } else {
-          console.warn("⚠️ No FCM token received.");
-        }
+        console.log("FCM Token:", token);
+        console.error("FCM Token", token);
+        setToken(token);
       } else {
-        console.warn("🚫 Notification permission denied.");
+        console.log("Notification permission denied");
       }
     } catch (error) {
-      console.error("❌ Error getting FCM token:", error);
+      console.log("Error getting FCM token:", error);
     }
   };
 
   useEffect(() => {
     requestPermission();
 
+    // Handle foreground messages
+  //   onMessage(messaging, (payload) => {
+  //     console.log("Foreground message received:", payload);
+
+  //     if (Notification.permission === "granted") {
+  //       new Notification(payload.notification.title, {
+  //         body: payload.notification.body,
+  //         icon: "/favicon.ico", // Change if needed
+  //       });
+  //     }
+  //   });
+  // }, []);
+
+  useEffect(() => {
+    // Request notification permission & get token
+    requestPermission();
+  
     // Handle foreground notifications
     const unsubscribe = onMessage(messaging, (payload) => {
       console.log("📲 Foreground notification received:", payload);
+  
+      // Show a notification alert
       alert(`📢 ${payload.notification.title}: ${payload.notification.body}`);
+  
+      // Optionally, create a browser notification
       if (Notification.permission === "granted") {
         new Notification(payload.notification.title, {
           body: payload.notification.body,
-          icon: "/favicon.ico",
+          icon: "/favicon.ico", // Change icon if needed
         });
       }
     });
-
+  
     return () => unsubscribe(); // Cleanup on unmount
   }, []);
+  
 
-  // Handle Reminder Submission
+  // Handle foreground messages
+  // onMessage(messaging, (payload) => {
+  //   console.log("Foreground notification received:", payload);
+  // });
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      await axios.post(
-        "https://waterremainderappserver.vercel.app/api/reminders",
-        {
-          title,
-          time,
-          fcmToken: token,
-        }
-      );
-      alert("✅ Reminder Set!");
-      fetchReminders();
-    } catch (error) {
-      console.error("❌ Error setting reminder:", error);
-    }
+    await axios.post(
+      "https://waterremainderappserver.vercel.app/api/reminders",
+      {
+        title,
+        time,
+        fcmToken: token,
+      }
+    );
+    alert("Reminder Set!");
+    fetchReminders();
   };
+
+  console.log("my fcm token is set ", token);
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-blue-100 p-4">
