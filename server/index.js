@@ -108,6 +108,31 @@ const sendNotification = async (reminder) => {
 //   });
 // });
 
+app.get("/run-cron", async (req, res) => {
+  const now = new Date();
+  const currentTime = now.toTimeString().slice(0, 5);
+
+  console.log(`⏳ (Manual Cron) Checking reminders for time: ${currentTime}`);
+
+  try {
+    const reminders = await Reminder.find({ time: currentTime });
+
+    if (reminders.length === 0) {
+      console.log("⚠️ No reminders found for this time.");
+    } else {
+      reminders.forEach((reminder) => {
+        console.log("🔔 Sending notification to:", reminder.fcmToken);
+        sendNotification(reminder);
+      });
+    }
+
+    res.json({ message: "Cron executed successfully." });
+  } catch (error) {
+    console.error("❌ Error in manual cron job:", error);
+    res.status(500).json({ error: "Cron job failed." });
+  }
+});
+
 cron.schedule("* * * * *", async () => {
   const now = new Date();
   const currentTime = now.toTimeString().slice(0, 5);
