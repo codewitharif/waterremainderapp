@@ -136,17 +136,41 @@ function App() {
     requestPermission();
 
     // Handle foreground messages
-    onMessage(messaging, (payload) => {
-      console.log("Foreground message received:", payload);
+  //   onMessage(messaging, (payload) => {
+  //     console.log("Foreground message received:", payload);
 
+  //     if (Notification.permission === "granted") {
+  //       new Notification(payload.notification.title, {
+  //         body: payload.notification.body,
+  //         icon: "/favicon.ico", // Change if needed
+  //       });
+  //     }
+  //   });
+  // }, []);
+
+  useEffect(() => {
+    // Request notification permission & get token
+    requestPermission();
+  
+    // Handle foreground notifications
+    const unsubscribe = onMessage(messaging, (payload) => {
+      console.log("📲 Foreground notification received:", payload);
+  
+      // Show a notification alert
+      alert(`📢 ${payload.notification.title}: ${payload.notification.body}`);
+  
+      // Optionally, create a browser notification
       if (Notification.permission === "granted") {
         new Notification(payload.notification.title, {
           body: payload.notification.body,
-          icon: "/favicon.ico", // Change if needed
+          icon: "/favicon.ico", // Change icon if needed
         });
       }
     });
+  
+    return () => unsubscribe(); // Cleanup on unmount
   }, []);
+  
 
   // Handle foreground messages
   // onMessage(messaging, (payload) => {
